@@ -22,9 +22,9 @@ public class RouteService {
 		this.routeStrategy = new DruidRouteStrategy();
 	}
 
-	public RouteResult route(String sqlStmt,String dbType) throws SQLSyntaxErrorException {
+	public RouteResult route(RouteCondition condition) throws SQLSyntaxErrorException {
 
-		RouteResult rr = (RouteResult) cachePool.get(sqlStmt);
+		RouteResult rr = (RouteResult) cachePool.get(condition.getSql());
 
 		if (rr != null) {
 			return rr;
@@ -32,14 +32,14 @@ public class RouteService {
 
 		RouteResult newRr = new RouteResult();
 
-		newRr.setStmt(sqlStmt);
+		newRr.setStmt(condition.getSql());
 
-		String tableName = removeBackquote(routeStrategy.route(sqlStmt,dbType));
-		tableName = removeTableDot(tableName);
+		String dbKey = removeBackquote(routeStrategy.route(condition));
+		/*dbKey = removeTableDot(dbKey);
 
-		newRr.setTartgetHost(getTartgetMycat(tableName));
-
-		cachePool.putIfAbsent(sqlStmt, newRr);
+		newRr.setTartgetHost(getTartgetMycat(dbKey));*/
+		newRr.setTartgetHost(dbKey);
+		cachePool.putIfAbsent(condition.getSql(), newRr);
 
 		return newRr;
 	}

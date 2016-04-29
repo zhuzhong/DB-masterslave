@@ -4,6 +4,7 @@
 package com.zz.rwdb;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Administrator
@@ -11,6 +12,13 @@ import java.util.List;
  */
 public class Test {
 
+    
+    public static void main(String args[]){
+        Random r=new Random();
+        while(true){
+            System.out.println(r.nextInt(0));
+        }
+    }
     public S tt(List<S> list) {
 
         /*

@@ -1,4 +1,4 @@
-package com.zz.rwdb.backend;
+package com.zz.rwdb.front.keypool;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -7,8 +7,6 @@ import java.sql.Statement;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.log4j.Logger;
-
-import com.zz.rwdb.backend.core.PhysicalDatasource;
 
 /**
  * 心跳检测，暂时先不用

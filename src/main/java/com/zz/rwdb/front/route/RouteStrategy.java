@@ -4,5 +4,5 @@ import java.sql.SQLSyntaxErrorException;
 
 public interface RouteStrategy {
 
-	String route(String sqlStmt,String dbType) throws SQLSyntaxErrorException;
+	String route(RouteCondition condition) throws SQLSyntaxErrorException;
 }

@@ -19,8 +19,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
-import com.zz.rwdb.front.sql.MycatDataSource;
-import com.zz.rwdb.util.Constant;
 
 /**
  * @author Administrator
