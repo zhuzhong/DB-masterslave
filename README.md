@@ -1,0 +1,17 @@
+#数据库的读写分离
+
+###使用方法
+
+MycatDataSource dataSource=new MycatDataSource(dbType,writeDataSource,readDataSource);
+这样就可以获取到dataSource实例，根据传给statement或preparedStatement的sql语句，来决定是走write库，还是read库;
+
+它的基本原理即mycatDataSource作为 主库与从库的代理，产生代理的conntion,
+从而产生代理的statement，然后
+通过拦截 sql 来判断是走主库还是从库,然后获取真正的库，从而获取真的connection
+来执行相应的sql操作;
+
+它的思路启发于mycat的HA-DataSource,这个项目是作为mycat的ha功能。本项目代码是在这个代码基础上进行整改而成，即原先ha的功能，更改为读写分离的功能.
+因为我原先给项目组提供的读写分离方案是利用spring的切面，进行动态路由，但是在实际使用过程中出现，对于方法是否应当执行切面操作没有定论，因为业务代码太复杂。
+所以一直思考能否从更底层的代码切入来进行数据源的路由,幸好遇到了ha-datasource这个项目。如果说spring的切面进行动态路由是在第3层，则进行sql拦截即为第5或6
+层。这样对于业务的侵入性更少，从使用的方便性来说这个更好。
+ 
