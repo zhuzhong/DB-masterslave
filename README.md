@@ -14,4 +14,5 @@ MycatDataSource dataSource=new MycatDataSource(dbType,writeDataSource,readDataSo
 因为我原先给项目组提供的读写分离方案是利用spring的切面，进行动态路由，但是在实际使用过程中出现，对于方法是否应当执行切面操作没有定论，因为业务代码太复杂。
 所以一直思考能否从更底层的代码切入来进行数据源的路由,幸好遇到了ha-datasource这个项目。如果说spring的切面进行动态路由是在第3层，则进行sql拦截即为第5或6
 层。这样对于业务的侵入性更少，从使用的方便性来说这个更好。
+但是这个方案依然没有考虑主从复制之间的延迟问题，所以它的适用性还是很有局限的.
  
