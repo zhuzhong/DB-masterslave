@@ -18,3 +18,6 @@ MycatDataSource dataSource=new MycatDataSource(dbType,writeDataSource,readDataSo
 层。这样对于业务的侵入性更少，从使用的方便性来说这个更好。
 但是这个方案依然没有考虑主从复制之间的延迟问题，所以它的适用性还是很有局限的.
  
+###缺点
+本组件只支持一主一从的数据库的读写分离。对于多从情况可考虑通过haproxy(lvs)作为多从的负载均衡器，来构建一主一从，而关于haproxy可以通过keepalive作失效转移;考虑到主服务的失效转移可考虑keepalive主方案。
+另本组件对于数据库主从之间的复制的时间延迟没有考虑，在使用的时候具体考虑。
