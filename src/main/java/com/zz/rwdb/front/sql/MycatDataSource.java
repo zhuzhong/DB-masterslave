@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,67 +22,31 @@ public class MycatDataSource implements DataSource {
     private int loginTimeout = 3;
 
     /**
-     * 一主一从
+     * 一主一从 对于多从，可以采用haproxy进行负载均衡的架构， 而对于多主，可以采用lvs(keepalive)形式进行主备
      * 
      * @param dbType
-     * @param writeDataSource
-     * @param readDataSource
+     * @param masterDataSource
+     * @param slaveDataSource
      */
-    public MycatDataSource(String dbType, DataSource writeDataSource, DataSource readDataSource) {
+    public MycatDataSource(String dbType, DataSource masterDataSource, DataSource slaveDataSource) {
 
-        BaseService.getInstance().setDbType(dbType);
-        MycatHostConfig mconfig = new MycatHostConfig(Constant.getDataSourceKey(Constant.RW.WRITE.name(), 0),
-                writeDataSource);
+        BaseService.setDbType(dbType);
+        MycatHostConfig mconfig = new MycatHostConfig(Constant.RW.WRITE.name(), masterDataSource);
         putPhysicalDataSource(mconfig);
-        mconfig = new MycatHostConfig(Constant.getDataSourceKey(Constant.RW.READ.name(), 0), readDataSource);
+        mconfig = new MycatHostConfig(Constant.RW.READ.name(), slaveDataSource);
         putPhysicalDataSource(mconfig);
-
-    }
-
-    /**
-     * 一主多从
-     * 
-     * @param dbType
-     * @param writeDataSource
-     * @param readDataSources
-     */
-    public MycatDataSource(String dbType, DataSource writeDataSource, List<DataSource> readDataSources) {
-        BaseService.getInstance().setDbType(dbType);
-        MycatHostConfig mconfig;
-
-        mconfig = new MycatHostConfig(Constant.getDataSourceKey(Constant.RW.WRITE.name(), 0), writeDataSource);
-        putPhysicalDataSource(mconfig);
-        int size;
-        size = readDataSources.size();
-        for (int index = 0; index < size; index++) {
-            mconfig = new MycatHostConfig(Constant.getDataSourceKey(Constant.RW.READ.name(), index),
-                    readDataSources.get(index));
-            putPhysicalDataSource(mconfig);
+        if(dbType.equalsIgnoreCase("oracle")){
+            BaseService.setSpecialWriteSql(Arrays.asList(new String[]{"nextval"}));
         }
     }
 
-    /**
-     * 多主多从
-     * 
-     * @param dbType
-     * @param writeDataSources
-     * @param readDataSources
-     */
-    public MycatDataSource(String dbType, List<DataSource> writeDataSources, List<DataSource> readDataSources) {
-        BaseService.getInstance().setDbType(dbType);
-        MycatHostConfig mconfig;
-        int size = writeDataSources.size();
-        for (int index = 0; index < size; index++) {
-            mconfig = new MycatHostConfig(Constant.getDataSourceKey(Constant.RW.WRITE.name(), index),
-                    readDataSources.get(index));
-            putPhysicalDataSource(mconfig);
-        }
+    // private List<String> specialWriteSql;
 
-        size = readDataSources.size();
-        for (int index = 0; index < size; index++) {
-            mconfig = new MycatHostConfig(Constant.getDataSourceKey(Constant.RW.READ.name(), index),
-                    readDataSources.get(index));
-            putPhysicalDataSource(mconfig);
+    // 设置特殊的写sql，比如select user_seq.nextval from dual等
+    public void setSpecialWriteSql(List<String> specialWriteSql) {
+        // this.specialWriteSql = specialWriteSql;
+        if (specialWriteSql != null && specialWriteSql.size() > 0) {
+            BaseService.setSpecialWriteSql(specialWriteSql);
         }
     }
 

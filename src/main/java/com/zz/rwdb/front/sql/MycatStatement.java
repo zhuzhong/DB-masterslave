@@ -435,15 +435,17 @@ public class MycatStatement implements Statement {
      * @throws SQLException
      */
     protected void prepare(String sql) throws SQLException {
-        BaseService instance = BaseService.getInstance();
-        RouteCondition condition = new RouteCondition(sql, instance.getDbType(), BackendPool.getInstance()
-                .getWriteDataSourceSize(), BackendPool.getInstance().getReadDataSourceSize());
-        RouteResult rrs = instance.getRouteService().route(condition);
+      //  BaseService instance = BaseService.getInstance();
+        RouteCondition condition = new RouteCondition(sql, BaseService.getDbType()/*, BackendPool.getInstance()
+                .getWriteDataSourceSize(), BackendPool.getInstance().getReadDataSourceSize()*/
+                );
+        RouteResult rrs = BaseService.getRouteService().route(condition);
 
         PhysicalDatasource physicalDs = BackendPool.getInstance().getDataSouce(rrs.getTartgetHost());
 
         if (physicalDs == null) {
-            physicalDs = BackendPool.getInstance().getAlivePhysicalDatasource();
+           // physicalDs = BackendPool.getInstance().getAlivePhysicalDatasource();
+            throw new SQLException("后端物理数据库无法连接");
         }
 
         fakeConn.setRealConn(physicalDs.getConnection());

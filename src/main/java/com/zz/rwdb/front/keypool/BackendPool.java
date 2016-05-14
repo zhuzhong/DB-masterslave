@@ -1,11 +1,7 @@
 package com.zz.rwdb.front.keypool;
 
-import java.util.Collection;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import com.zz.rwdb.util.Constant;
 
 public class BackendPool {
 
@@ -36,20 +32,20 @@ public class BackendPool {
 
     public void putDataSouce(String dsName, PhysicalDatasource ds) {
         dbMap.putIfAbsent(dsName, ds);
-        if (dsName.startsWith(Constant.RW.READ.name())) {
+       /* if (dsName.startsWith(Constant.RW.READ.name())) {
             readDataSourceSize.incrementAndGet();
         } else {
             writeDataSourceSize.incrementAndGet();
-        }
+        }*/
     }
 
     public void removeDataSouce(String dsName) {
         dbMap.remove(dsName);
-        if (dsName.startsWith(Constant.RW.READ.name())) {
+        /*if (dsName.startsWith(Constant.RW.READ.name())) {
             readDataSourceSize.decrementAndGet();
         } else {
             writeDataSourceSize.decrementAndGet();
-        }
+        }*/
     }
 
     public boolean isAlive(String dsName) {
@@ -60,7 +56,7 @@ public class BackendPool {
         return dbMap;
     }
 
-    private AtomicInteger readDataSourceSize = new AtomicInteger(0);
+/*    private AtomicInteger readDataSourceSize = new AtomicInteger(0);
 
     private AtomicInteger writeDataSourceSize = new AtomicInteger(0);
 
@@ -71,14 +67,14 @@ public class BackendPool {
     public int getReadDataSourceSize() {
         return readDataSourceSize.get();
     }
-
-    public PhysicalDatasource getAlivePhysicalDatasource() {
+*/
+ /*   public PhysicalDatasource getAlivePhysicalDatasource() {
         Collection<PhysicalDatasource> collection = BackendPool.getInstance().getDbMap().values();
         PhysicalDatasource[] newArray = new PhysicalDatasource[collection.size()];
         collection.toArray(newArray);
         int randomNum = random.get().nextInt(collection.size());
 
         return newArray[randomNum];
-    }
+    }*/
 
 }
