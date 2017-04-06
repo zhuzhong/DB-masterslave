@@ -11,14 +11,14 @@ public class BaseService {
 	private static RouteService routeService = new RouteService(cacheService);
 	/*private static BaseService instance = new BaseService();
 
-	private BaseService() {
-
-	}
+	
 
 	public static BaseService getInstance() {
 		return instance;
 	}*/
 
+	private BaseService() {
+	}
 	private static List<String> specialWriteSql;
 	
 	
