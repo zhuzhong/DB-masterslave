@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.omg.CORBA.DynamicImplementation;
 import org.slf4j.LoggerFactory;
 
 import com.zz.rwdb.BaseService;
@@ -35,6 +36,12 @@ public class MycatDataSource implements DataSource {
     public MycatDataSource(String dbType, DataSource masterDataSource, DataSource slaveDataSource) {
 
         log.info("mycat data source init....");
+        if(dbType==null){
+            throw new RuntimeException("dbType is null ,please set it...");
+        }
+        if(dbType.equalsIgnoreCase("mysql")){
+            dbType="MySQL"; 
+        }
         BaseService.setDbType(dbType);
         MycatHostConfig mconfig = new MycatHostConfig(Constant.RW.WRITE.name(), masterDataSource);
         putPhysicalDataSource(mconfig);

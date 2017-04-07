@@ -23,7 +23,7 @@ public class DruidRouteStrategy implements RouteStrategy {
         SQLStatementParser parser = null;
 
         String sql = condition.getSql();
-        log.info("need parse full sql={}", sql);
+
         if (BaseService.getSpecialWriteSql() != null) {
             for (String sepecialSql : BaseService.getSpecialWriteSql()) {
                 if (sql.indexOf(sepecialSql) > -1) {
@@ -34,15 +34,16 @@ public class DruidRouteStrategy implements RouteStrategy {
         parser = SQLParserUtils.createSQLStatementParser(sql, condition.getDbType());
 
         SQLStatement statement = parser.parseStatement();
-
+        String dbName = null;
         if (statement instanceof SQLSelectStatement) {
-            return Constant.RW.READ.name();
-
+            // return Constant.RW.READ.name();
+            dbName = Constant.RW.READ.name();
         } else {
-            return Constant.RW.WRITE.name();
-
+            // return Constant.RW.WRITE.name();
+            dbName = Constant.RW.WRITE.name();
         }
-
+        log.info("need_parse_full_sql={},result ={}", sql, dbName);
+        return dbName;
     }
 
     /*

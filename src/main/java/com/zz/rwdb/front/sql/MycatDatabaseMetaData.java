@@ -9,11 +9,13 @@ import java.sql.ResultSet;
 import java.sql.RowIdLifetime;
 import java.sql.SQLException;
 
+import com.zz.rwdb.BaseService;
+
 /**
  * @author Administrator
  *
  */
-public class MycatDatabaseMetaData implements DatabaseMetaData{
+public class MycatDatabaseMetaData implements DatabaseMetaData {
 
     @Override
     public <T> T unwrap(Class<T> iface) throws SQLException {
@@ -83,7 +85,9 @@ public class MycatDatabaseMetaData implements DatabaseMetaData{
 
     @Override
     public String getDatabaseProductName() throws SQLException {
-        // TODO Auto-generated method stub
+        if (BaseService.getDbType() != null) {
+            return BaseService.getDbType();
+        }
         return "MySQL";
     }
 
