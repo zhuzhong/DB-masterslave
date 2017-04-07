@@ -12,13 +12,13 @@ import java.util.Random;
  */
 public class Test {
 
-    
-    public static void main(String args[]){
-        Random r=new Random();
-        while(true){
+    public static void main(String args[]) {
+        Random r = new Random();
+        while (true) {
             System.out.println(r.nextInt(0));
         }
     }
+
     public S tt(List<S> list) {
 
         /*
@@ -55,7 +55,7 @@ public class Test {
         }
 
     }
-    
+
     private int gcd(List<S> list) {
         return 0;
     }
