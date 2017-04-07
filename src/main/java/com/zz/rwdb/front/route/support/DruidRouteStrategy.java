@@ -2,6 +2,9 @@ package com.zz.rwdb.front.route.support;
 
 import java.sql.SQLSyntaxErrorException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
 import com.alibaba.druid.sql.parser.SQLParserUtils;
@@ -13,11 +16,14 @@ import com.zz.rwdb.util.Constant;
 
 public class DruidRouteStrategy implements RouteStrategy {
 
+    private static final Logger log = LoggerFactory.getLogger(DruidRouteStrategy.class);
+
     @Override
     public String route(RouteCondition condition) throws SQLSyntaxErrorException {
         SQLStatementParser parser = null;
-        
+
         String sql = condition.getSql();
+        log.info("need parse full sql={}", sql);
         if (BaseService.getSpecialWriteSql() != null) {
             for (String sepecialSql : BaseService.getSpecialWriteSql()) {
                 if (sql.indexOf(sepecialSql) > -1) {

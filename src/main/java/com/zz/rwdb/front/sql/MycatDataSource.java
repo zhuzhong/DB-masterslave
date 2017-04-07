@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.slf4j.LoggerFactory;
+
 import com.zz.rwdb.BaseService;
 import com.zz.rwdb.config.model.MycatHostConfig;
 import com.zz.rwdb.front.keypool.BackendPool;
@@ -21,6 +23,8 @@ public class MycatDataSource implements DataSource {
     private PrintWriter logWriter;
     private int loginTimeout = 3;
 
+    
+    private static org.slf4j.Logger log=LoggerFactory.getLogger(MycatDataSource.class);
     /**
      * 一主一从 对于多从，可以采用haproxy进行负载均衡的架构， 而对于多主，可以采用lvs(keepalive)形式进行主备
      * 
@@ -30,6 +34,7 @@ public class MycatDataSource implements DataSource {
      */
     public MycatDataSource(String dbType, DataSource masterDataSource, DataSource slaveDataSource) {
 
+        log.info("mycat data source init....");
         BaseService.setDbType(dbType);
         MycatHostConfig mconfig = new MycatHostConfig(Constant.RW.WRITE.name(), masterDataSource);
         putPhysicalDataSource(mconfig);
@@ -88,17 +93,17 @@ public class MycatDataSource implements DataSource {
 
     @Override
     public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        throw new SQLException("only support isWrapperFor()");
+        throw new SQLException("not support isWrapperFor()");
     }
 
     @Override
     public <T> T unwrap(Class<T> iface) throws SQLException {
-        throw new SQLException("only support unwrap()");
+        throw new SQLException("not support unwrap()");
     }
 
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        throw new SQLFeatureNotSupportedException("only support getParentLogger()");
+        throw new SQLFeatureNotSupportedException("not support getParentLogger()");
     }
 
 }

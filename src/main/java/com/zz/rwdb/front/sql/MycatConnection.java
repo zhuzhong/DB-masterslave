@@ -246,7 +246,9 @@ public class MycatConnection implements Connection {
 		if (this.realConn != null) {
 			return realConn.getMetaData();
 		}
-		throw SQLError.createSQLException("getMetaData can't execute");
+		//throw SQLError.createSQLException("getMetaData can't execute");
+		//在与　mybatis 集成时启动mybatis需要获取这方面信息，所以只能提供一个虚假的
+		return new MycatDatabaseMetaData();
 	}
 
 	@Override
