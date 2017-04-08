@@ -31,7 +31,7 @@ import com.zz.rwdb.front.sql.error.SQLError;
 public class MycatPreparedStatement extends MycatStatement implements PreparedStatement {
 
     private StringBuffer sb; // 这个sql语句，会逐步被更新，然后用于sql拦截解析，
-    private MycatParameters parameters;  //这个是对于preparement进行修改的参数记录
+    private MycatParameters parameters; // 这个是对于preparement进行修改的参数记录
     private String originalSql; // 而这个sql语句，会保存原始的模样，用于传参给真正的preparement
 
     // 以下常量对应connection 中构建preparedStatement的那6个方法，目的是1-1对应
@@ -205,6 +205,12 @@ public class MycatPreparedStatement extends MycatStatement implements PreparedSt
         return ((PreparedStatement) realStat).getMetaData();
     }
 
+    /*在PreparedStatement设置参数这个处理上所有的方法思路都是一样的，首先将参数接收替换掉预处理的sql中，
+     * 然后用parameters将 设置方法名，参数类型，及参数值进行存储,在获取路由结果之后，通过回调将参数设置给真正的preparedstatement,
+     * 原因是构造器入口时就作路由是不准确的，如果只是读写区分在构造器是获取sql就可以路由，这种错误概率不是很高，但是
+     * 如果需要精准的路由所以需要获取完整的sql语句，所以才有了下面设置参数方法包装
+     * 
+     */
     @Override
     public void setNull(int parameterIndex, int sqlType) throws SQLException {
         int strIndex = searchIndex(parameterIndex);

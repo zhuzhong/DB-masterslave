@@ -49,9 +49,9 @@ public class MycatStatement implements Statement {
 
     protected int resultSetType;
 
-    static final int CREATE_ST_METHOD_BY_CON = 11;
-    static final int CREATE_ST_METHOD_BY_CON_I_I = 12;
-    static final int CREATE_ST_METHOD_BY_CON_I_I_I = 13;
+    static final int CREATE_ST_METHOD_BY_CON = 11; // 代表1个参数
+    static final int CREATE_ST_METHOD_BY_CON_I_I = 12; // 代表两个参数
+    static final int CREATE_ST_METHOD_BY_CON_I_I_I = 13; // 代表3个参数
 
     public MycatStatement(MycatConnection conn) {
         this.fakeConn = conn;
@@ -59,14 +59,14 @@ public class MycatStatement implements Statement {
     }
 
     public MycatStatement(MycatConnection conn, int resultSetType, int resultSetConcurrency) {
-        this(conn);
+        this.fakeConn = conn;
         this.resultSetType = resultSetType;
         this.resultSetConcurrency = resultSetConcurrency;
         this.createMethodByCon = MycatStatement.CREATE_ST_METHOD_BY_CON_I_I;
     }
 
     public MycatStatement(MycatConnection conn, int resultSetType, int resultSetConcurrency, int resultSetHoldability) {
-        this(conn);
+        this.fakeConn = conn;
         this.resultSetType = resultSetType;
         this.resultSetConcurrency = resultSetConcurrency;
         this.resultSetHoldability = resultSetHoldability;
@@ -435,23 +435,25 @@ public class MycatStatement implements Statement {
      * @throws SQLException
      */
     protected void prepare(String sql) throws SQLException {
-      //  BaseService instance = BaseService.getInstance();
-        RouteCondition condition = new RouteCondition(sql, BaseService.getDbType()/*, BackendPool.getInstance()
-                .getWriteDataSourceSize(), BackendPool.getInstance().getReadDataSourceSize()*/
-                );
+        // BaseService instance = BaseService.getInstance();
+        RouteCondition condition = new RouteCondition(sql, BaseService.getDbType());
         RouteResult rrs = BaseService.getRouteService().route(condition);
 
         PhysicalDatasource physicalDs = BackendPool.getInstance().getDataSouce(rrs.getTartgetHost());
 
+        /**
+         * 在我们现这个项目中，因为写库与读库是不对等的，所以不能进行数据库的手动切换，所以在此只能抛异常
+         */
         if (physicalDs == null) {
-           // physicalDs = BackendPool.getInstance().getAlivePhysicalDatasource();
-            throw new SQLException("后端物理数据库无法连接");
+            // physicalDs =
+            // BackendPool.getInstance().getAlivePhysicalDatasource();
+            throw new SQLException(String.format("physical %s database can't get", rrs.getTartgetHost()));
         }
 
         fakeConn.setRealConn(physicalDs.getConnection());
 
         if (fakeConn.getRealConn() == null) {
-            throw new SQLException("连接没有正确获得");
+            throw new SQLException(String.format("physical %s database can't connection", rrs.getTartgetHost()));
         }
         // 创建Statement
         createStatements(sql);
@@ -472,7 +474,7 @@ public class MycatStatement implements Statement {
             break;
         }
         if (realStat == null) {
-            throw new SQLException("无法建立正确的ps");
+            throw new SQLException("No real Statement exist");
         }
         if (this.maxFieldSize != 0) {
             realStat.setMaxFieldSize(maxFieldSize);

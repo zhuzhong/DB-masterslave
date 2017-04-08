@@ -7,23 +7,23 @@ import com.zz.rwdb.front.route.RouteService;
 
 public class BaseService {
 
-	private static CacheService cacheService = new CacheService();
-	private static RouteService routeService = new RouteService(cacheService);
-	/*private static BaseService instance = new BaseService();
+    // private static CacheService cacheService = new CacheService();
+    // private static RouteService routeService = new
+    // RouteService(cacheService);
 
-	
+    private static RouteService routeService = new RouteService(null);// 去掉缓存
 
-	public static BaseService getInstance() {
-		return instance;
-	}*/
+    /*
+     * private static BaseService instance = new BaseService(); 
+     * public static BaseService getInstance() { return instance; }
+     */
 
-	private BaseService() {
-	}
-	private static List<String> specialWriteSql;
-	
-	
-	
-	public static List<String> getSpecialWriteSql() {
+    private BaseService() {
+    }
+
+    private static List<String> specialWriteSql;
+
+    public static List<String> getSpecialWriteSql() {
         return specialWriteSql;
     }
 
@@ -31,21 +31,18 @@ public class BaseService {
         BaseService.specialWriteSql = specialWriteSql;
     }
 
-    public  static RouteService getRouteService() {
-		return routeService;
-	}
+    public static RouteService getRouteService() {
+        return routeService;
+    }
 
-	private static String dbType;
+    private static String dbType;
 
-	public static void setDbType(String dbType) {
-	    BaseService.dbType = dbType;
-	}
+    public static void setDbType(String dbType) {
+        BaseService.dbType = dbType;
+    }
 
-	public static String getDbType() {
-		return BaseService.dbType;
-	}
-
-
-	
+    public static String getDbType() {
+        return BaseService.dbType;
+    }
 
 }

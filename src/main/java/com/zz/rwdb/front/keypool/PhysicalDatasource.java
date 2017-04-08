@@ -3,23 +3,25 @@ package com.zz.rwdb.front.keypool;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.zz.rwdb.config.model.MycatHostConfig;
+import javax.sql.DataSource;
 
 public class PhysicalDatasource {
 
-	private MycatHostConfig config;
+    private DataSource dataSource;
 
-	public PhysicalDatasource(MycatHostConfig config) {
+    private String name;
 
-		this.config = config;
-	}
+    public PhysicalDatasource(String pyhsicalName, DataSource dataSource) {
+        this.name = pyhsicalName;
+        this.dataSource = dataSource;
+    }
 
-	public String getName() {
-		return config.getName();
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public Connection getConnection() throws SQLException {
-		return config.getDataSource().getConnection();
-	}
+    public Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
+    }
 
 }

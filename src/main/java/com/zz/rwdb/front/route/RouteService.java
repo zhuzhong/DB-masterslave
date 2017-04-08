@@ -18,30 +18,40 @@ public class RouteService {
 	private RouteStrategy routeStrategy;
 
 	public RouteService(CacheService cacheService) {
-		this.cachePool = cacheService.getCachePool();
+		this.cachePool = (cacheService == null ? null : cacheService
+				.getCachePool());
 		this.routeStrategy = new DruidRouteStrategy();
 	}
 
-	public RouteResult route(RouteCondition condition) throws SQLSyntaxErrorException {
+	public RouteResult route(RouteCondition condition)
+			throws SQLSyntaxErrorException {
 
-		RouteResult rr = (RouteResult) cachePool.get(condition.getSql());
+		/*
+		 * RouteResult rr = (RouteResult) cachePool.get(condition.getSql());
+		 * 
+		 * if (rr != null) { return rr; }
+		 * 
+		 * RouteResult newRr = new RouteResult();
+		 * 
+		 * newRr.setStmt(condition.getSql());
+		 * 
+		 * String dbKey = removeBackquote(routeStrategy.route(condition)); dbKey
+		 * = removeTableDot(dbKey);
+		 * 
+		 * newRr.setTartgetHost(getTartgetMycat(dbKey));
+		 * newRr.setTartgetHost(dbKey);
+		 * cachePool.putIfAbsent(condition.getSql(), newRr);
+		 * 
+		 * return newRr;
+		 */
 
-		if (rr != null) {
-			return rr;
-		}
-
+		// 去掉缓存机制，因为在现有项目中缓存的需要并不是很强烈
 		RouteResult newRr = new RouteResult();
-
 		newRr.setStmt(condition.getSql());
-
 		String dbKey = removeBackquote(routeStrategy.route(condition));
-		/*dbKey = removeTableDot(dbKey);
-
-		newRr.setTartgetHost(getTartgetMycat(dbKey));*/
 		newRr.setTartgetHost(dbKey);
-		cachePool.putIfAbsent(condition.getSql(), newRr);
-
 		return newRr;
+
 	}
 
 	private String getTartgetMycat(String tableName)
