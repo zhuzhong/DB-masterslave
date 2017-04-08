@@ -59,6 +59,8 @@ public class DBHeartBeat implements Runnable {
         trySendHeartBeat(conn);
     }
 
+    
+    
     private void trySendHeartBeat(Connection beatConn) {
         if (fetching.compareAndSet(false, true)) {
             try {
