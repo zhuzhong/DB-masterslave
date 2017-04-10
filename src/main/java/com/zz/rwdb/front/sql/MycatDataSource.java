@@ -14,7 +14,6 @@ import org.omg.CORBA.DynamicImplementation;
 import org.slf4j.LoggerFactory;
 
 import com.zz.rwdb.BaseService;
-import com.zz.rwdb.config.model.MycatHostConfig;
 import com.zz.rwdb.front.keypool.BackendPool;
 import com.zz.rwdb.front.keypool.PhysicalDatasource;
 import com.zz.rwdb.util.Constant;
@@ -43,10 +42,13 @@ public class MycatDataSource implements DataSource {
             dbType="MySQL"; 
         }
         BaseService.setDbType(dbType);
-        MycatHostConfig mconfig = new MycatHostConfig(Constant.RW.WRITE.name(), masterDataSource);
-        putPhysicalDataSource(mconfig);
-        mconfig = new MycatHostConfig(Constant.RW.READ.name(), slaveDataSource);
-        putPhysicalDataSource(mconfig);
+        // MycatHostConfig mconfig = new MycatHostConfig(Constant.RW.WRITE.name(), masterDataSource);
+        // putPhysicalDataSource(mconfig);
+        //mconfig = new MycatHostConfig(Constant.RW.READ.name(), slaveDataSource);
+        //putPhysicalDataSource(mconfig);
+        
+        putPhysicalDataSource(Constant.RW.WRITE.name(), masterDataSource);
+        putPhysicalDataSource(Constant.RW.READ.name(), slaveDataSource);
         if(dbType.equalsIgnoreCase("oracle")){
             BaseService.setSpecialWriteSql(Arrays.asList(new String[]{"nextval"}));
         }
@@ -62,10 +64,17 @@ public class MycatDataSource implements DataSource {
         }
     }
 
-    private void putPhysicalDataSource(MycatHostConfig config) {
+    
+    private void putPhysicalDataSource(String name,DataSource dataSource) {
+        PhysicalDatasource physicalDatasource = new PhysicalDatasource(name,dataSource);
+        BackendPool.getInstance().putDataSouce(name, physicalDatasource);
+    }
+    
+    
+    /*private void putPhysicalDataSource(MycatHostConfig config) {
         PhysicalDatasource physicalDatasource = new PhysicalDatasource(config);
         BackendPool.getInstance().putDataSouce(config.getName(), physicalDatasource);
-    }
+    }*/
 
     @Override
     public Connection getConnection() throws SQLException {
