@@ -42,7 +42,7 @@ public class DruidRouteStrategy implements RouteStrategy {
             // return Constant.RW.WRITE.name();
             dbName = Constant.RW.WRITE.name();
         }
-        log.info("need_parse_full_sql={},result ={}", sql, dbName);
+        log.info("need_route_sql={},result={}", sql, dbName);
         return dbName;
     }
 
