@@ -95,19 +95,21 @@ public class MycatConnection implements Connection {
 
         if (local.get() != null) {
             Connection c = local.get();
-            /*if (realConn.equals(c)) {
-                System.out.println("oooooooooooook");
-            } else {
-                System.out.println("not oooook");
-            }*/
+            /*
+             * if (realConn.equals(c)) { System.out.println("oooooooooooook"); }
+             * else { System.out.println("not oooook"); }
+             */
             c.commit();
         }
     }
 
     @Override
     public void rollback() throws SQLException {
-        if (realConn != null) {
-            realConn.rollback();
+        /*
+         * if (realConn != null) { realConn.rollback(); }
+         */
+        if (local.get() != null) {
+            local.get().rollback();
         }
     }
 
@@ -257,7 +259,8 @@ public class MycatConnection implements Connection {
         if (this.realConn != null) {
             return realConn.getMetaData();
         }
-        throw SQLError.createSQLException("getMetaData can't execute");
+        // throw SQLError.createSQLException("getMetaData can't execute");
+        return new MycatDatabaseMetaData();
     }
 
     @Override
@@ -303,6 +306,8 @@ public class MycatConnection implements Connection {
         if (this.realConn != null) {
             realConn.releaseSavepoint(savepoint);
         }
+        if (local.get() != null)
+            local.get().rollback();
     }
 
     @Override
@@ -310,6 +315,8 @@ public class MycatConnection implements Connection {
         if (this.realConn != null) {
             realConn.rollback(savepoint);
         }
+        if (local.get() != null)
+            local.get().rollback(savepoint);
     }
 
     @Override
@@ -325,6 +332,8 @@ public class MycatConnection implements Connection {
         if (this.realConn != null) {
             return realConn.setSavepoint(name);
         }
+        if (local.get() != null)
+            local.get().setSavepoint(name);
         throw SQLError.createSQLException("setSavepoint can't execute");
     }
 
@@ -453,9 +462,5 @@ public class MycatConnection implements Connection {
     public Connection getRealConn() {
         return realConn;
     }
-
-
-
-	
 
 }
