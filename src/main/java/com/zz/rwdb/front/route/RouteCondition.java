@@ -10,7 +10,6 @@ package com.zz.rwdb.front.route;
 public class RouteCondition {
 
     private final String sql;
-
     private final String dbType;
 
   /*  private final int writeDBSize;
