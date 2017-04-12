@@ -2,9 +2,9 @@ package com.zz.rwdb.front.sql;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -37,8 +37,19 @@ public class MycatDataSource implements DataSource {
         
         putPhysicalDataSource(Constant.RW.WRITE.name(), masterDataSource);
         putPhysicalDataSource(Constant.RW.READ.name(), slaveDataSource);
-        if(dbType.equalsIgnoreCase("oracle")){
-            BaseService.setSpecialWriteSql(Arrays.asList(new String[]{"nextval"}));
+        if(masterDataSource!=null){
+            try {
+                Connection c=masterDataSource.getConnection();
+                //获取全部的数据库表
+                ResultSet rs = c.getMetaData().getTables(null, "%", "%", new String[] { "TABLE" });
+                while (rs.next()) {
+                    BaseService.addWritedbTables(rs.getString("TABLE_NAME").trim()); //将写库的全部表都装载进来
+                }
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
         }
     }
 

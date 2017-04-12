@@ -1,8 +1,9 @@
 package com.zz.rwdb;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import com.zz.rwdb.front.cache.CacheService;
 import com.zz.rwdb.front.route.RouteService;
 
 public class BaseService {
@@ -21,6 +22,14 @@ public class BaseService {
     private BaseService() {
     }
 
+    
+    private static Set<String> allWritedbTables=new HashSet<String>();
+    public static void addWritedbTables(String tableName){
+        allWritedbTables.add(tableName);
+    }
+    public static Set<String> getAllWritedbTables(){
+        return allWritedbTables;
+    }
     private static List<String> specialWriteSql;
 
     public static List<String> getSpecialWriteSql() {

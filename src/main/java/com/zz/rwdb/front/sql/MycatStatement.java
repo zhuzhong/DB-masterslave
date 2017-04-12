@@ -450,7 +450,7 @@ public class MycatStatement implements Statement {
             throw new SQLException(String.format("physical %s database can't get", rrs.getTartgetHost()));
         }
 
-        fakeConn.setRealConn(physicalDs.getConnection());
+        fakeConn.setRealConn(physicalDs.getConnection(),rrs.getTartgetHost());
 
         if (fakeConn.getRealConn() == null) {
             throw new SQLException(String.format("physical %s database can't connection", rrs.getTartgetHost()));
