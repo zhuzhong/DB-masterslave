@@ -2,12 +2,12 @@
 
 ##使用方法
 
-MycatDataSource dataSource=new MycatDataSource(dbType,writeDataSource,readDataSource);
+RWDataSource dataSource=new RWDataSource(dbType,writeDataSource,readDataSource);
 这样就可以获取到dataSource实例，根据传给statement或preparedStatement的sql语句，来决定是走write库，还是read库;
 
 
 ##基本原理
-即mycatDataSource作为 主库与从库的代理，产生代理的conntion,
+即RWDataSource作为 主库与从库的代理，产生代理的conntion,
 从而产生代理的statement，然后
 通过拦截 sql 来判断是走主库还是从库,然后获取真正的库，从而获取真的connection
 来执行相应的sql操作;
