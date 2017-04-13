@@ -22,7 +22,6 @@ import java.util.concurrent.Executor;
 import org.slf4j.LoggerFactory;
 
 import com.aldb.rwdb.front.sql.error.SQLError;
-import com.aldb.rwdb.util.Constant;
 
 public class RWConnection implements Connection {
 

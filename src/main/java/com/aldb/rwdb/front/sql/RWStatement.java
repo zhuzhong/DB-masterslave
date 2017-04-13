@@ -450,8 +450,10 @@ public class RWStatement implements Statement {
             // BackendPool.getInstance().getAlivePhysicalDatasource();
             throw new SQLException(String.format("physical %s database can't get", rrs.getTartgetHost()));
         }
-
-        
+        /*该组件应用在spring托管的事务项目中为了获取之前所使用 writeConnection所以需要进行局部存储，最后进行提交，
+         * 因为在一个事务中，初始使用该writeConnection到最后事务提交有可能进行connection的切换，所以在最后提交的时候也需要操作该writeConnection
+         * 比如在一个事务中:先写再读，或者写、读、更新三步
+        */
         if (rrs.getTartgetHost().equals(Constant.RW.WRITE.name())) {
             if(RWConnection.RWREAL_CONNECTION.get()!=null){
                 fakeConn.setRealConn(RWConnection.RWREAL_CONNECTION.get(),rrs.getTartgetHost());
