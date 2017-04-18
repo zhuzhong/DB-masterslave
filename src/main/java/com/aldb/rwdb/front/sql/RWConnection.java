@@ -260,13 +260,13 @@ public class RWConnection implements Connection {
 
     public static ThreadLocal<Connection> RWREAL_CONNECTION = new ThreadLocal<Connection>();
 
-    public void setRealConn(Connection realConn, String operateType) throws SQLException {
+    public void setRealConn(Connection realConn) throws SQLException {
        /* if(log.isDebugEnabled()){
             log.debug("Thread id={},invoke rwConnection$setRealConn method,realConn={},operateType={}",Thread.currentThread().getId(),
                     realConn,operateType);
         }*/
-        log.debug("Thread id={},invoke rwConnection$setRealConn method,realConn={},operateType={}",Thread.currentThread().getId(),
-                realConn,operateType);
+        log.debug("Thread id={},invoke rwConnection$setRealConn method,realConn={}",Thread.currentThread().getId(),
+                realConn);
         this.realConn = realConn;
         initRealConnection(realConn);
     }

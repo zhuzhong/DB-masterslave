@@ -35,34 +35,37 @@ public class DruidRouteStrategy implements RouteStrategy {
         }
         String dbName = null;
         try {
-            SQLStatementParser parser = SQLParserUtils.createSQLStatementParser(sql, condition.getDbType().toLowerCase());
+            SQLStatementParser parser = SQLParserUtils.createSQLStatementParser(sql, condition.getDbType()
+                    .toLowerCase());
             SQLStatement statement = parser.parseStatement();
 
-            if (statement instanceof SQLSelectStatement) {      
+            if (statement instanceof SQLSelectStatement) {
                 dbName = Constant.RW.READ.name();
-                boolean change = true;
-                // 对于读取操作，如果读取的全部是写库的表，则可以将其路由到写库，以解决数据同步的问题
-                if (condition.getDbType().toLowerCase().equals("mysql")) {
-                    MySqlSchemaStatVisitor visitor = new MySqlSchemaStatVisitor();
-                    statement.accept(visitor);
-                    Set<Name> tableNames = visitor.getTables().keySet();
-                    logReadTables(tableNames);
-                    for (Name name : tableNames) {
-                        if (!BaseService.getAllWritedbTables().contains(name.getName().trim())) {
-                            change = false;
-                            break;
-                        }
+                if (BaseService.isRealTime()) { //进行实时才需要将所有读取从库的路由到写库
+                    boolean change = true;
+                    // 对于读取操作，如果读取的全部是写库的表，则可以将其路由到写库，以解决数据同步的问题
+                    if (condition.getDbType().toLowerCase().equals("mysql")) {
+                        MySqlSchemaStatVisitor visitor = new MySqlSchemaStatVisitor();
+                        statement.accept(visitor);
+                        Set<Name> tableNames = visitor.getTables().keySet();
+                        logReadTables(tableNames);
+                        for (Name name : tableNames) {
+                            if (!BaseService.getAllWritedbTables().contains(name.getName().trim())) {
+                                change = false;
+                                break;
+                            }
 
+                        }
                     }
-                }
-                if (change) {
-                    dbName = Constant.RW.WRITE.name();
+                    if (change) {
+                        dbName = Constant.RW.WRITE.name();
+                    }
                 }
             } else {
                 dbName = Constant.RW.WRITE.name();
             }
         } catch (Exception e) {
-            log.error("durid parse sql error,sql={},e={}", sql,e);
+            log.error("durid parse sql error,sql={},e={}", sql, e);
             if (sql != null && sql.trim() != null && sql.length() >= 6) {
                 String subSql = sql.substring(0, 6);
                 if (subSql.equalsIgnoreCase("select")) {
@@ -71,7 +74,7 @@ public class DruidRouteStrategy implements RouteStrategy {
                     dbName = Constant.RW.WRITE.name();
                 }
             }
-            
+
         }
         log.info("need_route_sql={},result={}", sql, dbName);
         return dbName;

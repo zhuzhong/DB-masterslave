@@ -52,4 +52,16 @@ public class BaseService {
         return BaseService.dbType;
     }
 
+    
+    private static boolean realTime;
+
+    public static boolean isRealTime() {
+        return realTime;
+    }
+    public static void setRealTime(boolean realTime) {
+        BaseService.realTime = realTime;
+    }
+
+   
+    
 }

@@ -456,14 +456,14 @@ public class RWStatement implements Statement {
         */
         if (rrs.getTartgetHost().equals(Constant.RW.WRITE.name())) {
             if(RWConnection.RWREAL_CONNECTION.get()!=null){
-                fakeConn.setRealConn(RWConnection.RWREAL_CONNECTION.get(),rrs.getTartgetHost());
+                fakeConn.setRealConn(RWConnection.RWREAL_CONNECTION.get());
             }else{
                 RWConnection.RWREAL_CONNECTION.set(physicalDs.getConnection());
-                fakeConn.setRealConn(RWConnection.RWREAL_CONNECTION.get(),rrs.getTartgetHost());
+                fakeConn.setRealConn(RWConnection.RWREAL_CONNECTION.get());
             }
            
         }else{
-            fakeConn.setRealConn(physicalDs.getConnection(), rrs.getTartgetHost());
+            fakeConn.setRealConn(physicalDs.getConnection());
         }
        
 

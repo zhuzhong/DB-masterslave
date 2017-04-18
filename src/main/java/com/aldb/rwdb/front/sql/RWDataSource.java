@@ -50,11 +50,25 @@ public class RWDataSource implements DataSource {
 
         putPhysicalDataSource(Constant.RW.WRITE.name(), masterDataSource);
         putPhysicalDataSource(Constant.RW.READ.name(), slaveDataSource);
-        if (masterDataSource != null) {
+
+    }
+
+    // private List<String> specialWriteSql;
+
+    // 设置特殊的写sql，比如select user_seq.nextval from dual等
+    public void setSpecialWriteSql(List<String> specialWriteSql) {
+        // this.specialWriteSql = specialWriteSql;
+        if (specialWriteSql != null && specialWriteSql.size() > 0) {
+            BaseService.setSpecialWriteSql(specialWriteSql);
+        }
+    }
+
+    public void setRealTime(String isTrue) {
+        if ("true".equals(isTrue)) {
             Connection c = null;
             ResultSet rs = null;
             try {
-                c = masterDataSource.getConnection();
+                c = BackendPool.getInstance().getDataSouce(Constant.RW.WRITE.name()).getConnection();
                 // 获取全部的数据库表
                 rs = c.getMetaData().getTables(null, "%", "%", new String[] { "TABLE" });
                 while (rs.next()) {
@@ -83,16 +97,8 @@ public class RWDataSource implements DataSource {
                     log.debug("all tableNames {}", sb.toString());
                 }
             }
-        }
-    }
 
-    // private List<String> specialWriteSql;
-
-    // 设置特殊的写sql，比如select user_seq.nextval from dual等
-    public void setSpecialWriteSql(List<String> specialWriteSql) {
-        // this.specialWriteSql = specialWriteSql;
-        if (specialWriteSql != null && specialWriteSql.size() > 0) {
-            BaseService.setSpecialWriteSql(specialWriteSql);
+            BaseService.setRealTime(true);
         }
     }
 
@@ -108,21 +114,19 @@ public class RWDataSource implements DataSource {
      * physicalDatasource); }
      */
 
-   // public static ThreadLocal<Connection> localRWConnection=new ThreadLocal<Connection>();
+    // public static ThreadLocal<Connection> localRWConnection=new
+    // ThreadLocal<Connection>();
     @Override
     public Connection getConnection() throws SQLException {
-       /* Connection conn=null;
-        
-        if(localRWConnection.get()!=null){
-            conn= localRWConnection.get();
-        }else{
-            localRWConnection.set(new RWConnection());
-            conn= localRWConnection.get();
-        }
-        if(log.isDebugEnabled()){
-            log.debug("Thread id={},invoke rwDataSource$getConnection method,conn={}",Thread.currentThread().getId(),conn.toString());
-        }
-        return conn;*/
+        /*
+         * Connection conn=null;
+         * 
+         * if(localRWConnection.get()!=null){ conn= localRWConnection.get();
+         * }else{ localRWConnection.set(new RWConnection()); conn=
+         * localRWConnection.get(); } if(log.isDebugEnabled()){
+         * log.debug("Thread id={},invoke rwDataSource$getConnection method,conn={}"
+         * ,Thread.currentThread().getId(),conn.toString()); } return conn;
+         */
         return new RWConnection();
     }
 
