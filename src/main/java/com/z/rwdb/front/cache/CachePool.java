@@ -1,5 +1,5 @@
 
-package com.aldb.rwdb.front.cache;
+package com.z.rwdb.front.cache;
 
 
 public interface CachePool {

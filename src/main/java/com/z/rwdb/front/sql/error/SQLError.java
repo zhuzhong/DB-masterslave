@@ -1,4 +1,4 @@
-package com.aldb.rwdb.front.sql.error;
+package com.z.rwdb.front.sql.error;
 
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;

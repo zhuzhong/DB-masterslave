@@ -1,4 +1,4 @@
-package com.aldb.rwdb.front.sql;
+package com.z.rwdb.front.sql;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;

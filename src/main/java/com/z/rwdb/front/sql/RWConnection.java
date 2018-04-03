@@ -1,4 +1,4 @@
-package com.aldb.rwdb.front.sql;
+package com.z.rwdb.front.sql;
 
 import java.sql.Array;
 import java.sql.Blob;
@@ -21,7 +21,7 @@ import java.util.concurrent.Executor;
 
 import org.slf4j.LoggerFactory;
 
-import com.aldb.rwdb.front.sql.error.SQLError;
+import com.z.rwdb.front.sql.error.SQLError;
 
 public class RWConnection implements Connection {
 

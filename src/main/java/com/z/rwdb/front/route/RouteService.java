@@ -1,10 +1,10 @@
-package com.aldb.rwdb.front.route;
+package com.z.rwdb.front.route;
 
 import java.sql.SQLSyntaxErrorException;
 
-import com.aldb.rwdb.front.cache.CachePool;
-import com.aldb.rwdb.front.cache.CacheService;
-import com.aldb.rwdb.front.route.support.DruidRouteStrategy;
+import com.z.rwdb.front.cache.CachePool;
+import com.z.rwdb.front.cache.CacheService;
+import com.z.rwdb.front.route.support.DruidRouteStrategy;
 
 /**
  * 基本原理，是利用druid的sql解析 原始sql获取相关的sql内容，然后进行相应的路由

@@ -1,4 +1,4 @@
-package com.aldb.rwdb.front.sql;
+package com.z.rwdb.front.sql;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -6,13 +6,13 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 
-import com.aldb.rwdb.BaseService;
-import com.aldb.rwdb.front.keypool.BackendPool;
-import com.aldb.rwdb.front.keypool.PhysicalDatasource;
-import com.aldb.rwdb.front.route.RouteCondition;
-import com.aldb.rwdb.front.route.RouteResult;
-import com.aldb.rwdb.front.sql.error.SQLError;
-import com.aldb.rwdb.util.Constant;
+import com.z.rwdb.BaseService;
+import com.z.rwdb.front.keypool.BackendPool;
+import com.z.rwdb.front.keypool.PhysicalDatasource;
+import com.z.rwdb.front.route.RouteCondition;
+import com.z.rwdb.front.route.RouteResult;
+import com.z.rwdb.front.sql.error.SQLError;
+import com.z.rwdb.util.Constant;
 
 public class RWStatement implements Statement {
 

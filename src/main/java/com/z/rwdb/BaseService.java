@@ -1,10 +1,10 @@
-package com.aldb.rwdb;
+package com.z.rwdb;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.aldb.rwdb.front.route.RouteService;
+import com.z.rwdb.front.route.RouteService;
 
 public class BaseService {
 

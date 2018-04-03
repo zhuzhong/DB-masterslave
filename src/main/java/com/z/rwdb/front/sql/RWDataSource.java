@@ -1,4 +1,4 @@
-package com.aldb.rwdb.front.sql;
+package com.z.rwdb.front.sql;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -12,10 +12,10 @@ import javax.sql.DataSource;
 
 import org.slf4j.LoggerFactory;
 
-import com.aldb.rwdb.BaseService;
-import com.aldb.rwdb.front.keypool.BackendPool;
-import com.aldb.rwdb.front.keypool.PhysicalDatasource;
-import com.aldb.rwdb.util.Constant;
+import com.z.rwdb.BaseService;
+import com.z.rwdb.front.keypool.BackendPool;
+import com.z.rwdb.front.keypool.PhysicalDatasource;
+import com.z.rwdb.util.Constant;
 
 public class RWDataSource implements DataSource {
 

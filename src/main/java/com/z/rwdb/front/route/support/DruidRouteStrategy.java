@@ -1,4 +1,4 @@
-package com.aldb.rwdb.front.route.support;
+package com.z.rwdb.front.route.support;
 
 import java.sql.SQLSyntaxErrorException;
 import java.util.Set;
@@ -6,16 +6,16 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.aldb.rwdb.BaseService;
-import com.aldb.rwdb.front.route.RouteCondition;
-import com.aldb.rwdb.front.route.RouteStrategy;
-import com.aldb.rwdb.util.Constant;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlSchemaStatVisitor;
 import com.alibaba.druid.sql.parser.SQLParserUtils;
 import com.alibaba.druid.sql.parser.SQLStatementParser;
 import com.alibaba.druid.stat.TableStat.Name;
+import com.z.rwdb.BaseService;
+import com.z.rwdb.front.route.RouteCondition;
+import com.z.rwdb.front.route.RouteStrategy;
+import com.z.rwdb.util.Constant;
 
 public class DruidRouteStrategy implements RouteStrategy {
 

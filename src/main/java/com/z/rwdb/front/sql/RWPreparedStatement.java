@@ -1,4 +1,4 @@
-package com.aldb.rwdb.front.sql;
+package com.z.rwdb.front.sql;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -22,7 +22,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import com.aldb.rwdb.front.sql.error.SQLError;
+import com.z.rwdb.front.sql.error.SQLError;
 
 /**
  * 代理PreparedStatement,负责对预处理方式进行sql分析,获取到真实的connection

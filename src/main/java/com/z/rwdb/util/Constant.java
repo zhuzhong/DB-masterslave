@@ -1,4 +1,4 @@
-package com.aldb.rwdb.util;
+package com.z.rwdb.util;
 
 public class Constant {
 
