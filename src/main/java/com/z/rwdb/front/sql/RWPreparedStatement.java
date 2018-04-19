@@ -90,7 +90,24 @@ public class RWPreparedStatement extends RWStatement implements PreparedStatemen
     }
 
     private int searchIndex(int parameterIndex) {
-        int index = 0;
+    	/*
+    	 * 这种查找会出问题，原因是入参中含有?，这样就无法区分是初始的参数问号，还是更改之后的参数问号？ 
+    	 * 为什么参数会出现问号呢？都是泪，cron表达式就是有问号的，小朋友存到了数据库中
+    	 * 
+    	 * 见RWPreparedStatementTest中的demo
+    	 */
+        /*int index = 0;
+        for (int i = 0; i <= parameterIndex; i++) {
+        	
+            index = this.sb.indexOf("?", index);
+        }
+        return index;*/
+        
+    	int index = sb.lastIndexOf("'");  //找到最后一个 单引号
+		if(index<0) {
+			index=0;
+		}
+
         for (int i = 0; i <= parameterIndex; i++) {
             index = this.sb.indexOf("?", index);
         }
@@ -103,6 +120,7 @@ public class RWPreparedStatement extends RWStatement implements PreparedStatemen
     }
 
     private String warpParameter(String param) {
+    	
         return String.format("'%s'", param);
     }
 

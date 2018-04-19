@@ -65,7 +65,7 @@ public class DruidRouteStrategy implements RouteStrategy {
                 dbName = Constant.RW.WRITE.name();
             }
         } catch (Exception e) {
-            log.error("durid parse sql error,sql={},e={}", sql, e);
+            log.error("druid parse sql error,sql={},e={}", sql, e);
             if (sql != null && sql.trim() != null && sql.length() >= 6) {
                 String subSql = sql.substring(0, 6);
                 if (subSql.equalsIgnoreCase("select")) {

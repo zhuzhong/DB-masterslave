@@ -33,10 +33,11 @@ public class RWDataSource implements DataSource {
      */
     public RWDataSource(String dbType, DataSource masterDataSource, DataSource slaveDataSource) {
 
-        log.info("mycat data source init....");
+       
         if (dbType == null) {
-            throw new RuntimeException("dbType is null ,please set it...");
+            throw new RuntimeException("dbTypes null ,please set it...");
         }
+        log.info("data source init ,dbtype={}",dbType);
         if (dbType.equalsIgnoreCase("mysql")) {
             dbType = "MySQL";
         }
