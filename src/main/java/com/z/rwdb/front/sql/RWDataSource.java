@@ -42,13 +42,6 @@ public class RWDataSource implements DataSource {
             dbType = "MySQL";
         }
         BaseService.setDbType(dbType);
-        // MycatHostConfig mconfig = new
-        // MycatHostConfig(Constant.RW.WRITE.name(), masterDataSource);
-        // putPhysicalDataSource(mconfig);
-        // mconfig = new MycatHostConfig(Constant.RW.READ.name(),
-        // slaveDataSource);
-        // putPhysicalDataSource(mconfig);
-
         putPhysicalDataSource(Constant.RW.WRITE.name(), masterDataSource);
         putPhysicalDataSource(Constant.RW.READ.name(), slaveDataSource);
 

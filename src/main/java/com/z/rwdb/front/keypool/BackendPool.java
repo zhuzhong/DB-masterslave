@@ -1,21 +1,20 @@
 package com.z.rwdb.front.keypool;
 
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class BackendPool {
 
-    private ThreadLocal<Random> random;
+   // private ThreadLocal<Random> random;
 
     private BackendPool() {
         super();
         dbMap = new ConcurrentHashMap<String, PhysicalDatasource>();
-        this.random = new ThreadLocal<Random>() {
+       /* this.random = new ThreadLocal<Random>() {
             @Override
             protected Random initialValue() {
                 return new Random();
             }
-        };
+        };*/
     }
 
     private ConcurrentHashMap<String, PhysicalDatasource> dbMap;

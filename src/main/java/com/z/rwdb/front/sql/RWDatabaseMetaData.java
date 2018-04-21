@@ -19,67 +19,57 @@ public class RWDatabaseMetaData implements DatabaseMetaData {
 
     @Override
     public <T> T unwrap(Class<T> iface) throws SQLException {
-        // TODO Auto-generated method stub
+      
         return null;
     }
 
     @Override
     public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        // TODO Auto-generated method stub
-        return false;
+       return false;
     }
 
     @Override
     public boolean allProceduresAreCallable() throws SQLException {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean allTablesAreSelectable() throws SQLException {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public String getURL() throws SQLException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public String getUserName() throws SQLException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean isReadOnly() throws SQLException {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean nullsAreSortedHigh() throws SQLException {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean nullsAreSortedLow() throws SQLException {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean nullsAreSortedAtStart() throws SQLException {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean nullsAreSortedAtEnd() throws SQLException {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -93,31 +83,26 @@ public class RWDatabaseMetaData implements DatabaseMetaData {
 
     @Override
     public String getDatabaseProductVersion() throws SQLException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public String getDriverName() throws SQLException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public String getDriverVersion() throws SQLException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public int getDriverMajorVersion() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public int getDriverMinorVersion() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
