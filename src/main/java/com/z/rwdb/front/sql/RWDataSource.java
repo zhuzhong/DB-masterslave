@@ -57,7 +57,7 @@ public class RWDataSource implements DataSource {
         }
     }
 
-    public void setRealTime(String isTrue) {
+    public void setRealTime(String isTrue) { //是否需要实时读取
         if ("true".equals(isTrue)) {
             Connection c = null;
             ResultSet rs = null;

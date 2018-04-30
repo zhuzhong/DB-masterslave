@@ -432,7 +432,8 @@ public class RWStatement implements Statement {
      * 初始化真正的Statement
      * 
      * @param sql
-     *            已经初始化好的sql语句。
+     *            已经初始化好的sql语句,用于数据源的路由，只所以在原始的sql上进行参数拼结，这种思路可以解分库分表的情况，只是这个组件没有实现；
+     *            
      * @throws SQLException
      */
     protected void prepare(String sql) throws SQLException {
@@ -454,15 +455,27 @@ public class RWStatement implements Statement {
          * 因为在一个事务中，初始使用该writeConnection到最后事务提交有可能进行connection的切换，所以在最后提交的时候也需要操作该writeConnection
          * 比如在一个事务中:先写再读，或者写、读、更新三步
         */
-        if (rrs.getTartgetHost().equals(Constant.RW.WRITE.name())) {
-            if(RWConnection.RWREAL_CONNECTION.get()!=null){
-                fakeConn.setRealConn(RWConnection.RWREAL_CONNECTION.get());
+        if (
+        	Constant.RW.WRITE.name().equals(rrs.getTartgetHost()) //写库
+        	) {
+        	/*
+        	 * 对于路由结果为写库的，则需要分析上下文，
+        	 * 如果之前没有获得connection,则直接从write db中获取connection，并保留在上下文；
+        	 * 如果之前已经获得了connection则直接从上下文中获取connection，而不再重新从write db中再次获取connection，
+        	 * 并且不更新上下文；
+        	 * 
+        	 */
+            if(RWConnection.REALWDB_CONNECTION.get()!=null){   
+                fakeConn.setRealConn(RWConnection.REALWDB_CONNECTION.get());
             }else{
-                RWConnection.RWREAL_CONNECTION.set(physicalDs.getConnection());
-                fakeConn.setRealConn(RWConnection.RWREAL_CONNECTION.get());
+                RWConnection.REALWDB_CONNECTION.set(physicalDs.getConnection());
+                fakeConn.setRealConn(RWConnection.REALWDB_CONNECTION.get());
             }
            
         }else{
+        	/*
+        	 * 对于读库切换没有上下文
+        	 */
             fakeConn.setRealConn(physicalDs.getConnection());
         }
        

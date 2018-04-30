@@ -1,9 +1,10 @@
 package com.z.rwdb.front.cache;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CacheService {
-	private static final Logger logger = Logger.getLogger(CacheService.class);
+	private static final Logger logger = LoggerFactory.getLogger(CacheService.class);
 
 	private CachePool cachePool;
 

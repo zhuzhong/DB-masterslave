@@ -6,7 +6,8 @@ import java.sql.SQLTimeoutException;
 import java.sql.Statement;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 心跳检测，暂时先不用
@@ -16,7 +17,7 @@ import org.apache.log4j.Logger;
  */
 public class DBHeartBeat implements Runnable {
 
-    private static Logger LOGGER = Logger.getLogger(DBHeartBeat.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(DBHeartBeat.class);
     private static final int MAX_RETRY_COUNT = 5;
 
     private volatile boolean closed;
