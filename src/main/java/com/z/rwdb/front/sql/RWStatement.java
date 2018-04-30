@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.z.rwdb.BaseService;
 import com.z.rwdb.front.keypool.BackendPool;
@@ -74,19 +76,32 @@ public class RWStatement implements Statement {
         this.createMethodByCon = RWStatement.CREATE_ST_METHOD_BY_CON_I_I;
     }
 
+    private List<String> batchSql=new LinkedList<String>();
     @Override
     public void addBatch(String sql) throws SQLException {
-        throw SQLError.notImplemented();
+        //throw SQLError.notImplemented();
+    	batchSql.add(sql);
     }
 
     @Override
     public void clearBatch() throws SQLException {
-        throw SQLError.notImplemented();
+        //throw SQLError.notImplemented();
+        batchSql.clear();
     }
 
     @Override
     public int[] executeBatch() throws SQLException {
-        throw SQLError.notImplemented();
+        //throw SQLError.notImplemented();
+    	if(batchSql!=null) {
+    		String firstSql=batchSql.get(0);
+    		prepare(firstSql);//该批处理不支持查询，所以只需要解析其中一句的sql用于实例化相应的写库 realStat
+    		for(String sql:batchSql) {
+    			this.realStat.addBatch(sql);
+    		}
+    		return this.realStat.executeBatch();
+    	}else {
+    		return null;
+    	}
     }
 
     @Override
